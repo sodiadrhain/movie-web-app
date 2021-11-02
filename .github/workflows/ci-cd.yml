@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@main
-
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
   test:
@@ -32,7 +31,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build and push Docker to Heroku
+      - name: Build and push Dockerfile to Heroku
         env:
           HEROKU_APP_NAME: movie-app-fw
           DOCKERFILE_DIRECTORY: '.'
