@@ -5,7 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "docker:bash": "docker-compose up -d",
+    "docker:up": "docker container start movie_web_app",
+    "docker:down": "docker container stop movie_web_app"
   },
   "dependencies": {
     "axios": "^0.24.0",
