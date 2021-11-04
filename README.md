@@ -1,6 +1,6 @@
 # Movie Web App
 
-A web app that lists and searchs movies.
+A web app that lists and searches movies.
 
 ## Development Environment
 
@@ -16,7 +16,7 @@ Clone the [repository](https://github.com/sodiadrhain/movie-web-app.git) and pro
 
 ### Running App locally
 
-This app is written with Vuejs so Nodejs powers it; Enter the folloeing commads to start app locally
+This app is written with Vuejs so Nodejs powers it; Enter the folloeing commands to start app locally
 
 ## Project setup
 
@@ -83,7 +83,7 @@ To start the docker development environment another time run:
 yarn docker:up
 ```
 
-This will start the conatainer again.
+This will start the container again.
 
 ### View the Home Page
 
