@@ -18,7 +18,11 @@ export default {
       addSearch: 'searchMovies',
     }),
     handleSubmit(e) {
-      this.addSearch(e.target.search.value);
+      const payload = {
+        searchText: e.target.search.value,
+        pageNumber: null,
+      };
+      this.addSearch(payload);
     },
   },
 };

@@ -2,7 +2,12 @@
   <div class="movie-item-container">
     <ul>
       <li>
-        <img :src="movie.Poster" alt="image" class="movie-img" />
+        <!-- check if image is not available from api and use a default image -->
+        <img
+          :src="movie.Poster === 'N/A' ? 'https://2gyntc2a2i9a22ifya16a222-wpengine.netdna-ssl.com/wp-content/uploads/sites/29/2014/12/Image-Not-Available.jpg' : movie.Poster"
+          :alt="movie.Title"
+          class="movie-img"
+        />
       </li>
       <li>&middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot;</li>
       <li>
@@ -46,6 +51,7 @@ export default {
   opacity: 0.5;
   padding: 0px;
   margin: 0px;
+  max-width: 160px;
 }
 
 .movie-item-container ul {

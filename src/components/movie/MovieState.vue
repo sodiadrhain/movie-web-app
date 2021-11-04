@@ -10,6 +10,9 @@
       <div class="movie-container">
         <MovieItem v-for="movie in movies" :movie="movie" :key="movie.imdbID" />
       </div>
+      <div v-if="searchItem">
+        <MoviePagination />
+      </div>
     </div>
   </div>
 </template>
@@ -17,10 +20,12 @@
 <script>
 import MovieItem from './MovieItem.vue';
 import Loader from '../../layout/Loader.vue';
+import MoviePagination from './MoviePagination.vue';
 export default {
   components: {
     MovieItem,
     Loader,
+    MoviePagination,
   },
   computed: {
     movies() {
@@ -39,7 +44,11 @@ export default {
   created() {
     const searchItem = this.$store.getters.searchItem;
     if (searchItem) {
-      this.$store.dispatch('searchMovies', searchItem);
+      const payload = {
+        searchText: searchItem,
+        pageNumber: this.$store.getters.pages,
+      };
+      this.$store.dispatch('searchMovies', payload);
     } else {
       this.$store.dispatch('loadMovies');
     }

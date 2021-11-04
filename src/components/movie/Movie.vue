@@ -1,86 +1,94 @@
 <template>
   <div v-if="loading"><Loader /></div>
   <div v-else>
-    <div
-      class="movie-detail-container"
-      :style="`background: linear-gradient(rgb(0 0 0 / 9%) 100%, rgb(0 0 0 / 48%) 100%), url('${movieDetail.Poster}'); background-repeat: no-repeat; background-size: cover;`"
-    >
-      <div class="items">
-        <a @click="$router.back()"><img src="../../assets/images/arrow.svg" alt="back-button-arrow" class="back-button-image" /></a>
-        <a :href="'https://www.imdb.com/title/' + movieDetail.imdbID" target="_blank"><img src="../../assets/images/play-detail.svg" alt="play-button-arrow" class="play-image" /></a>
-        <a :href="'https://www.imdb.com/title/' + movieDetail.imdbID" target="_blank"><img src="../../assets/images/respond-arrow.svg" alt="next-button-arrow" class="next-button-image" /></a>
-      </div>
+    <div v-if="errMsg">
+      <NotFound />
     </div>
-    <div class="movie-detail-item">
-      <ul>
-        <li>
-          <img :src="movieDetail.Poster" :alt="movieDetail.Title" class="movie-image" />
-        </li>
-        <li>
-          <h3>{{ movieDetail.Title }}</h3>
-        </li>
-        <li>
-          <h4>{{ movieDetail.Runtime }} | Runtime</h4>
-        </li>
-        <li>
-          <h4>{{ movieDetail.Genre }}</h4>
-        </li>
-      </ul>
-    </div>
-    <div class="movie-detail-item-info">
-      <div class="movie-details">
-        <div class="item">
-          <span class="selected tab-details" @click="showDetails()">Details</span>
-          <span class="unselected tab-ratings" @click="showRatings()">Ratings</span>
-          <span class="unselected tab-others" @click="showOthers()">Others</span>
+    <div v-else>
+      <div
+        class="movie-detail-container"
+        :style="`background: linear-gradient(rgb(0 0 0 / 9%) 100%, rgb(0 0 0 / 48%) 100%), url(${
+          movieDetail.Poster === notAvailImgText ? notAvailImgUrl : movieDetail.Poster
+        }); background-repeat: no-repeat; background-size: cover;`"
+      >
+        <div class="items">
+          <a @click="$router.back()"><img src="../../assets/images/arrow.svg" alt="back-button-arrow" class="back-button-image" /></a>
+          <a :href="'https://www.imdb.com/title/' + movieDetail.imdbID" target="_blank"><img src="../../assets/images/play-detail.svg" alt="play-button-arrow" class="play-image" /></a>
+          <a :href="'https://www.imdb.com/title/' + movieDetail.imdbID" target="_blank"><img src="../../assets/images/respond-arrow.svg" alt="next-button-arrow" class="next-button-image" /></a>
         </div>
       </div>
-      <div class="summary">
-        <div id="details">
-          <h3>Plot</h3>
-          <small>{{ movieDetail.Plot }}</small>
-          <h3>Release</h3>
-          <small>{{ movieDetail.Released }}</small>
-          <h3>Actors</h3>
-          <small>{{ movieDetail.Actors }}</small>
-          <h3>Director</h3>
-          <small>{{ movieDetail.Director }}</small>
-          <h3>Writer</h3>
-          <small>{{ movieDetail.Writer }}</small>
-          <h3>Language</h3>
-          <small>{{ movieDetail.Language }}</small>
-          <h3>Country</h3>
-          <small>{{ movieDetail.Country }}</small>
-          <h3>Awards</h3>
-          <small>{{ movieDetail.Awards }}</small>
-        </div>
-
-        <div id="ratings">
-          <div v-for="rating in movieDetail.Ratings" :rating="rating" :key="rating.Source">
-            <h3>{{ rating.Source }}</h3>
-            <small>{{ rating.Value }}</small>
+      <div class="movie-detail-item">
+        <ul>
+          <li>
+            <!-- check if image is not available from api and use a default image -->
+            <img :src="movieDetail.Poster === notAvailImgText ? notAvailImgUrl : movieDetail.Poster" :alt="movieDetail.Title" class="movie-image" />
+          </li>
+          <li>
+            <h3>{{ movieDetail.Title }}</h3>
+          </li>
+          <li>
+            <h4>{{ movieDetail.Runtime }} | Runtime</h4>
+          </li>
+          <li>
+            <h4>{{ movieDetail.Genre }}</h4>
+          </li>
+        </ul>
+      </div>
+      <div class="movie-detail-item-info">
+        <div class="movie-details">
+          <div class="item">
+            <span class="selected tab-details" @click="showDetails()">Details</span>
+            <span class="unselected tab-ratings" @click="showRatings()">Ratings</span>
+            <span class="unselected tab-others" @click="showOthers()">Others</span>
           </div>
         </div>
+        <div class="summary">
+          <div id="details">
+            <h3>Plot</h3>
+            <small>{{ movieDetail.Plot }}</small>
+            <h3>Release</h3>
+            <small>{{ movieDetail.Released }}</small>
+            <h3>Actors</h3>
+            <small>{{ movieDetail.Actors }}</small>
+            <h3>Director</h3>
+            <small>{{ movieDetail.Director }}</small>
+            <h3>Writer</h3>
+            <small>{{ movieDetail.Writer }}</small>
+            <h3>Language</h3>
+            <small>{{ movieDetail.Language }}</small>
+            <h3>Country</h3>
+            <small>{{ movieDetail.Country }}</small>
+            <h3>Awards</h3>
+            <small>{{ movieDetail.Awards }}</small>
+          </div>
 
-        <div id="others">
-          <h3>Metascore</h3>
-          <small>{{ movieDetail.Metascore }}</small>
-          <h3>imdbRating</h3>
-          <small>{{ movieDetail.imdbRating }}</small>
-          <h3>imdbVotes</h3>
-          <small>{{ movieDetail.imdbVotes }}</small>
-          <h3>imdbID</h3>
-          <small>{{ movieDetail.imdbID }}</small>
-          <h3>Type</h3>
-          <small>{{ movieDetail.Type }}</small>
-          <h3>DVD</h3>
-          <small>{{ movieDetail.DVD }}</small>
-          <h3>BoxOffice</h3>
-          <small>{{ movieDetail.BoxOffice }}</small>
-          <h3>Production</h3>
-          <small>{{ movieDetail.Production }}</small>
-          <h3>Website</h3>
-          <small>{{ movieDetail.Website }}</small>
+          <div id="ratings">
+            <div v-for="rating in movieDetail.Ratings" :rating="rating" :key="rating.Source">
+              <h3>{{ rating.Source }}</h3>
+              <small>{{ rating.Value }}</small>
+            </div>
+          </div>
+
+          <div id="others">
+            <h3>Metascore</h3>
+            <small>{{ movieDetail.Metascore }}</small>
+            <h3>imdbRating</h3>
+            <small>{{ movieDetail.imdbRating }}</small>
+            <h3>imdbVotes</h3>
+            <small>{{ movieDetail.imdbVotes }}</small>
+            <h3>imdbID</h3>
+            <small>{{ movieDetail.imdbID }}</small>
+            <h3>Type</h3>
+            <small>{{ movieDetail.Type }}</small>
+            <h3>DVD</h3>
+            <small>{{ movieDetail.DVD }}</small>
+            <h3>BoxOffice</h3>
+            <small>{{ movieDetail.BoxOffice }}</small>
+            <h3>Production</h3>
+            <small>{{ movieDetail.Production }}</small>
+            <h3>Website</h3>
+            <small>{{ movieDetail.Website }}</small>
+          </div>
         </div>
       </div>
     </div>
@@ -91,9 +99,11 @@
 
 <script>
 import Loader from '../../layout/Loader.vue';
+import NotFound from '../../views/NotFound.vue';
 export default {
   components: {
     Loader,
+    NotFound,
   },
   computed: {
     movieDetail() {
@@ -101,6 +111,9 @@ export default {
     },
     loading() {
       return this.$store.getters.loading;
+    },
+    errMsg() {
+      return this.$store.getters.errMsg;
     },
   },
   created() {
@@ -134,10 +147,15 @@ export default {
       document.querySelector('.tab-ratings').className = 'unselected tab-ratings';
     };
 
+    const notAvailImgText = 'N/A';
+    const notAvailImgUrl = 'https://2gyntc2a2i9a22ifya16a222-wpengine.netdna-ssl.com/wp-content/uploads/sites/29/2014/12/Image-Not-Available.jpg';
+
     return {
       showDetails,
       showRatings,
       showOthers,
+      notAvailImgText,
+      notAvailImgUrl,
     };
   },
 };

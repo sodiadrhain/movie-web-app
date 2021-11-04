@@ -11,6 +11,7 @@ export default createStore({
     loading: false,
     searchItem: null,
     errMsg: null,
+    pages: 1,
   },
   getters: {
     movies: (state) => {
@@ -27,6 +28,9 @@ export default createStore({
     },
     errMsg: (state) => {
       return state.errMsg;
+    },
+    pages: (state) => {
+      return state.pages;
     },
   },
   mutations: {
@@ -51,6 +55,9 @@ export default createStore({
     SET_ERR_MSG(state, errMsg) {
       state.errMsg = errMsg;
     },
+    SET_PAGES(state, pages) {
+      state.pages = pages;
+    },
   },
   actions: {
     setLoading({ commit }) {
@@ -59,22 +66,31 @@ export default createStore({
     removeLoading({ commit }) {
       commit('REMOVE_LOADING', false);
     },
+    // api call load movies on page loaded
+    // setLoading and removeLoading knows when to display loader during api call
     async loadMovies({ commit, dispatch }) {
       dispatch('setLoading');
+      //   generate a random number from 1 to 10, to diplay list of recommendantions by page number
+      const randomNumber = Math.floor(Math.random() * 10) + 1;
       try {
-        const response = await axios.get(`${API_URL}&s=home&page=1`);
+        const response = await axios.get(`${API_URL}&s=boy&page=${randomNumber}`);
         commit('GET_MOVIES', response.data.Search);
         dispatch('removeLoading');
       } catch (error) {
         console.log(error);
       }
     },
+    // api call to search movies
     async searchMovies({ commit, dispatch }, payload) {
       dispatch('setLoading');
-      commit('SEARCH_ITEM', payload);
+      commit('SEARCH_ITEM', payload.searchText);
+      // reset back to default values on new search
       commit('SET_ERR_MSG', null);
+      //   commit('SET_PAGES', null);
+      //   check if page number is sent
+      const pageNumber = payload && payload.pageNumber ? payload.pageNumber : 1;
       try {
-        const response = await axios.get(`${API_URL}&s=${payload}&page=1`);
+        const response = await axios.get(`${API_URL}&s=${payload.searchText}&page=${pageNumber}`);
         if (response.data.Response === 'False') {
           commit('SET_ERR_MSG', response.data.Error);
         } else {
@@ -86,15 +102,27 @@ export default createStore({
         console.log(error);
       }
     },
+    // api call to get a sigle movie and it relative details
     async getMovie({ commit, dispatch }, payload) {
       dispatch('setLoading');
       try {
         const response = await axios.get(`${API_URL}&i=${payload}`);
-        commit('GET_A_MOVIE', response.data);
+        if (response.data.Response === 'False') {
+          commit('SET_ERR_MSG', response.data.Error);
+        } else {
+          commit('GET_A_MOVIE', response.data);
+        }
         dispatch('removeLoading');
       } catch (error) {
         console.log(error);
       }
+    },
+    setPages({ commit, dispatch }, { pageNumber, searchText }) {
+      commit('SET_PAGES', pageNumber);
+      dispatch('searchMovies', {
+        searchText: searchText,
+        pageNumber: pageNumber,
+      });
     },
   },
 });
