@@ -1,7 +1,7 @@
 <template>
   <nav>
     <span class="logo">Star Movie</span>
-    <img src="../assets/images/zoom.svg" alt="search" class="img" />
+    <img src="../assets/images/play.svg" alt="search" class="img-conatainer" />
   </nav>
 </template>
 
@@ -15,9 +15,13 @@ nav .logo {
   font-size: 24px;
   line-height: 18px;
   color: #ffffff;
-  margin-top: 4px;
+  margin: auto 0px;
 }
-.img {
-  height: 24px;
+
+.img-conatainer {
+  background: #d9251d;
+  border-radius: 50%;
+  height: 35px;
+  padding: 5px;
 }
 </style>

@@ -12,4 +12,12 @@ body {
   max-width: 1000px;
   margin: 0px auto;
 }
+a {
+  text-decoration: none;
+  color: #47cfff;
+}
+
+a:active {
+  color: #47cfff;
+}
 </style>

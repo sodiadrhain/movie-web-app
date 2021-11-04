@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import NotFound from '../views/NotFound.vue';
-import Movie from '../components/movie/MovieItem.vue';
+import Movie from '../components/movie/Movie.vue';
 
 // Defining necessary routes and creating export file
 const routes = [
@@ -17,19 +17,19 @@ const routes = [
     component: About,
   },
   {
-    path: '/movie',
+    path: '/movie/:movieId',
     name: 'Movie',
     component: Movie,
   },
   {
-    path: '/*',
+    path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 
