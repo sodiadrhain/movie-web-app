@@ -1,7 +1,7 @@
 <template>
   <div class="movie-search-container">
     <form @submit.prevent="handleSubmit">
-      <input type="text" name="search" id="search" placeholder="type movie name here..." required />
+      <input type="text" name="search" id="search" placeholder="Type movie name here..." required />
       <div class="movie-search-right">
         <img src="../../assets/images/zoom.svg" alt="play" class="img-search" />
         <button type="submit"><h3>Search</h3></button>

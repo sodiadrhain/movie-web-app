@@ -36,12 +36,12 @@ yarn serve
 http://localhost:8080
 ```
 
-## Building as Docker Container
+## Running as Docker Container
 
 **From within the project directory run the following:**
 
-```yarn docker:bash
-
+```
+yarn docker:bash
 ```
 
 to build image and container for app
@@ -69,8 +69,8 @@ This tells you that the various machines exist "locally" at 0.0.0.0 and that the
 
 To stop the docker development environment, issue the following command from the project root:
 
-```yarn docker:down
-
+```
+yarn docker:down
 ```
 
 This will stop all the container and related to this project.
@@ -79,8 +79,8 @@ This will stop all the container and related to this project.
 
 To start the docker development environment another time run:
 
-```yarn docker:up
-
+```
+yarn docker:up
 ```
 
 This will start the conatainer again.
